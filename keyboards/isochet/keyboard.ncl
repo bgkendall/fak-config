@@ -1,5 +1,5 @@
 let { DirectPinKey, .. } = import "fak/keyboard.ncl" in
-let { CH552T, .. } = import "fak/mcus.ncl" in
+let { CH552E, .. } = import "fak/mcus.ncl" in
 
 {
   mcu = CH552E,
