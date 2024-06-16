@@ -1,5 +1,6 @@
 .direnv/
 .vscode/
+.nova/
 .fak_cache/
 build/
 subprojects/fak/
