@@ -4,3 +4,4 @@
 .fak_cache/
 build/
 subprojects/fak/
+/keyboards/isochet/keymaps/private
