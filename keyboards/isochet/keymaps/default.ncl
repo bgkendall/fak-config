@@ -24,6 +24,7 @@ let TTTT = tap.trans & hold.trans in
       LT' 2 kc.TAB,
       MT mh.lalt kc.ENTER,
       LT' 1 (S kc.TAB),
+      kc.A,
       # Combos
       XXXX,
       XXXX
@@ -32,6 +33,7 @@ let TTTT = tap.trans & hold.trans in
       kc.UP,
       kc.DOWN,
       TTTT,
+      kc.B,
       # Combos
       macros.M1,
       XXXX
@@ -40,6 +42,7 @@ let TTTT = tap.trans & hold.trans in
       TTTT,
       XXXX,
       XXXX,
+      kc.C,
       # Combos
       XXXX,
       fa.BOOT
