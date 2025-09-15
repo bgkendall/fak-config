@@ -9,8 +9,8 @@ let { CH552T, .. } = import "fak/mcus.ncl" in
     product_ver = 256,  # 0x0100
   },
   matrix = {
-    cols = [14, 15, 16, 17, 10, 11],
-    rows = [32, 31, 30, 33],
+    cols = [32, 15, 16, 17, 10, 11],
+    rows = [14, 31, 30, 33],
   },
   keys =
     let K = ColToRowKey in
@@ -20,8 +20,8 @@ let { CH552T, .. } = import "fak/mcus.ncl" in
               K 1 1,  K 2 1,  K 3 1,  K 4 1,
       K 0 1,                                  K 5 1,
               K 1 2,  K 2 2,  K 3 2,  K 4 2,
-      K 0 3,      K 1 3,
-           K 2 3, K 3 3, K 4 3,
+      K 0 3,      K 3 3,
+           K 2 3, K 1 3, K 4 3,
                   K 5 3
     ]
 }
