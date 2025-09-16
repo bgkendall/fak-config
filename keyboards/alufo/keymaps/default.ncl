@@ -47,7 +47,7 @@ let CommandHold = fun key => macro.make [
                                         ] in
 
 # Named Layers
-let layers = [ "Base", "Sft", "Alt", "Ctl", "Sym", "Num", "Fun" ] in
+let layers = [ "Base", "Sft", "Ctl", "Sym", "Num", "Fun" ] in
 let L = std.record.from_array
           (std.array.map_with_index (fun index layer => { field = layer, value = index }) layers) in
 
@@ -70,7 +70,7 @@ let dances = {
 # Special key abbreviations
 let AltH   = MT keyRepeatOnDoubleTap mh.ralt kc.H in
 let AltLT  = MT keyRepeatOnDoubleTap mh.ralt ks.LABK in
-let AltX   = LM keyRepeatOnDoubleTap L.Alt mh.lalt kc.X in # MT keyRepeatOnDoubleTap mh.lalt kc.X in
+let AltX   = MT keyRepeatOnDoubleTap mh.lalt kc.X in # LM keyRepeatOnDoubleTap L.Alt mh.lalt kc.X in
 let AppBck = CommandHold kc.GRV in
 let AppFwd = CommandHold kc.TAB in
 let Cmd0   = MT keyRepeatOnDoubleTap mh.lgui kc.N0 in
@@ -149,26 +149,26 @@ let WDQuot = dances.W-DoubleQuote in
     TTT,
     TTT,
   ],
-  [ # Alt-ed Layer (for key overrides) (L.Alt)
-            TTT,    TTT,    TTT,    TTT,                        TTT,    TTT,    TTT,    TTT,
-    TTT,                                    TTT,        TTT,                                    TTT,
-            TTT,    TTT,    TTT,    TTT,                        TTT,    TTT,    TTT,    TTT,
-    md.lsft,                                TTT,        TTT,                                    TTT,
-            TTT,    TTT,    TTT,    TTT,                        TTT,    TTT,    UnALt,  UnAGt,
-                                    TTT,    TTT,        TTT,    TTT,
-                                                            TTT,TTT,TTT,
-                                                                TTT,
-    # Combos
-    TTT,
-    TTT,
-    TTT,
-    TTT,
-    TTT,
-    TTT,
-    XXX,
-    XXX,
-    XXX,
-  ],
+#  [ # Alt-ed Layer (for key overrides) (L.Alt)
+#            TTT,    TTT,    TTT,    TTT,                        TTT,    TTT,    TTT,    TTT,
+#    TTT,                                    TTT,        TTT,                                    TTT,
+#            TTT,    TTT,    TTT,    TTT,                        TTT,    TTT,    TTT,    TTT,
+#    md.lsft,                                TTT,        TTT,                                    TTT,
+#            TTT,    TTT,    TTT,    TTT,                        TTT,    TTT,    UnALt,  UnAGt,
+#                                    TTT,    TTT,        TTT,    TTT,
+#                                                            TTT,TTT,TTT,
+#                                                                TTT,
+#    # Combos
+#    TTT,
+#    TTT,
+#    TTT,
+#    TTT,
+#    TTT,
+#    TTT,
+#    XXX,
+#    XXX,
+#    XXX,
+#  ],
   [ # Controled Layer (for key overrides) (L.Ctl)
             TTT,    TTT,    TTT,    TTT,                        TTT,    TTT,    TTT,    TTT,
     TTT,                                    TTT,        TTT,                                    TTT,
