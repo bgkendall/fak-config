@@ -6,6 +6,7 @@ let kc  = tap.reg.kc in
 let ks  = tap.reg.ks in
 # let kh  = hold.reg.kc in
 let md  = tap.reg.mod in
+let me  = tap.custom.media in
 let mh  = hold.reg.mod in
 let ms  = tap.custom.mouse in
 let fa  = tap.custom.fak in
@@ -47,7 +48,14 @@ let CommandHold = fun key => macro.make [
                                         ] in
 
 # Named Layers
-let layers = [ "Base", "Sft", "Ctl", "Sym", "Num", "Fun" ] in
+let layers = [
+  "Base",
+  "Sft",
+  "Ctl",
+  "Sym",
+  "Num",
+  "Fn",
+] in
 let L = std.record.from_array
           (std.array.map_with_index (fun index layer => { field = layer, value = index }) layers) in
 
@@ -165,7 +173,7 @@ let WDQuot = dances.W-DoubleQuote in
 #    TTT,
 #    TTT,
 #    TTT,
-#    XXX,
+#    TTT,
 #    XXX,
 #    XXX,
 #  ],
@@ -185,7 +193,7 @@ let WDQuot = dances.W-DoubleQuote in
     TTT,
     TTT,
     TTT,
-    XXX,
+    TTT,
     XXX,
     XXX,
   ],
@@ -194,8 +202,8 @@ let WDQuot = dances.W-DoubleQuote in
       TTT,                                    ks.AT,      Ra.MINS,                                ra.RBRC,
               Ra.RBRC,kc.LEFT,kc.DOWN,kc.RGHT,                    ra.MINS,ra.SCLN,ks.PIPE,ks.DLR,
       kc.CAPS,                                mc.BK,      kc.GRV,                                 Ra.RBRC,
-              ks.PERC,ks.AMPR,ks.CIRC,TTT,                        ks.HASH,TTT,    kc.BSLS,kc.SLSH,
-                                      TTT,    TTT,       MO L.Fun,kc.PGUP,
+              ks.PERC,ks.AMPR,ks.CIRC,TTT,                        ks.HASH,ra.RBRC,kc.BSLS,kc.SLSH,
+                                      TTT,    TTT,        MO L.Fn,kc.PGUP,
                                                             kc.HOME,XXX,kc.END,
                                                                   kc.PGDN,
       # Combos
@@ -204,15 +212,15 @@ let WDQuot = dances.W-DoubleQuote in
       XXX,
       XXX,
       XXX,
-      XXX,
-      XXX,
+      ra.LBRC,
+      Ra.LBRC,
       XXX,
       XXX,
     ],
     [ # Number Layer (L.Num)
               kc.PAST,  kc.N7,  kc.N8,  kc.N9,                    ks.LCBR,ks.RCBR,kc.Y,   kc.BSPC,
       kc.ESC,                                 kc.PPLS,    kc.PMNS,                                kc.EQL,
-              kc.PSLS,  kc.N4,  kc.N5,  kc.N6,                    kc.LBRC,kc.RBRC,kc.I,   kc.U,
+              kc.PSLS,  kc.N4,  kc.N5,  kc.N6,                    kc.LBRC,kc.RBRC,ks.PIPE,ks.DLR,
       md.lsft,                                kc.PDOT,    kc.GRV,                                 MinSft,
               kc.PEQL,  kc.N1,  kc.N2,  kc.N3,                    AltLT,  CtlGT,  ks.QUES,ks.EXLM,
                                       Cmd0,   kc.PENT,    TTT,      TTT,
@@ -229,12 +237,12 @@ let WDQuot = dances.W-DoubleQuote in
       XXX,
       XXX,
     ],
-    [ # Function/Meta Layer (L.Fun)
+    [ # Function/Meta Layer (L.Fn)
               kc.F2,  kc.F3,  kc.F4,  kc.F5,                      kc.F7,  kc.F8,  kc.F9,  kc.F10,
-        kc.F1,                                  Lg.N4,      kc.F6,                                  kc.F11,
+      kc.F1,                                  Lg.N4,      kc.F6,                                  kc.F11,
               XXX,    XXX,    XXX,    XXX,                        XXX,    XXX,    XXX,    XXX,
-      XXX,                                    XXX,        XXX,                                    XXX,
-              md.lctl,md.lalt,XXX,    XXX,                        ms.BTN1,ms.BTN2,XXX,    XXX,
+      XXX,                                    XXX,        me.MUTE,                                kc.F12,
+              mc.M1,  mc.M2,  XXX,    XXX,                        ms.BTN1,ms.BTN2,me.VOLD,me.VOLU,
                                       TTT,    TTT,        TTT,    ms.UP,
                                                            ms.LEFT,XXX,ms.RGHT,
                                                                  ms.DOWN,
