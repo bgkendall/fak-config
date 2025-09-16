@@ -46,14 +46,10 @@ let CommandHold = fun key => macro.make [
                                           macro.release md.lgui
                                         ] in
 
-# Layer Names
-let LBase = 0 in
-let LShft = 1 in
-let LAlt  = 2 in
-let LCtrl = 3 in
-let LSymb = 4 in
-let LNumb = 5 in
-let LMeta = 6 in
+# Named Layers
+let layers = [ "Base", "Sft", "Alt", "Ctl", "Sym", "Num", "Fun" ] in
+let L = std.record.from_array
+          (std.array.map_with_index (fun index layer => { field = layer, value = index }) layers) in
 
 # Tap-dances
 let dances = {
@@ -66,15 +62,15 @@ let dances = {
   Dot-Colon      = td.make 160 [kc.DOT,   ks.COLN],
   Q-Quote        = td.make 160 [kc.Q,     kc.QUOT],
   ShiftCapsWord1 = td.make 200 [md.lsft,  fa.CWTG],
-  ShiftCapsWord2 = td.make 200 [LT {} LShft md.lsft & mh.lsft, fa.CWTG],
-  ShiftCapsWord3 = td.make 200 [LT {} LShft tap.sticky.mod.lsft & mh.lsft, fa.CWTG],
+  ShiftCapsWord2 = td.make 200 [LT {} L.Sft md.lsft & mh.lsft, fa.CWTG],
+  ShiftCapsWord3 = td.make 200 [LT {} L.Sft tap.sticky.mod.lsft & mh.lsft, fa.CWTG],
   W-DoubleQuote  = td.make 160 [kc.W,     ks.DQUO],
 } in
 
 # Special key abbreviations
 let AltH   = MT keyRepeatOnDoubleTap mh.ralt kc.H in
 let AltLT  = MT keyRepeatOnDoubleTap mh.ralt ks.LABK in
-let AltX   = LM keyRepeatOnDoubleTap LAlt mh.lalt kc.X in # MT keyRepeatOnDoubleTap mh.lalt kc.X in
+let AltX   = LM keyRepeatOnDoubleTap L.Alt mh.lalt kc.X in # MT keyRepeatOnDoubleTap mh.lalt kc.X in
 let AppBck = CommandHold kc.GRV in
 let AppFwd = CommandHold kc.TAB in
 let Cmd0   = MT keyRepeatOnDoubleTap mh.lgui kc.N0 in
@@ -83,15 +79,15 @@ let CmdTab = MT keyRepeatOnDoubleTap mh.lgui kc.TAB in
 let ComScl = dances.Comma-SemiCln in
 let CtlF   = MT keyRepeatOnDoubleTap mh.rctl kc.F in
 let CtlGT  = MT keyRepeatOnDoubleTap mh.rctl ks.RABK in
-let CtlZ   = LM keyRepeatOnDoubleTap LCtrl mh.lctl kc.Z in # MT keyRepeatOnDoubleTap mh.lctl kc.Z in
+let CtlZ   = LM keyRepeatOnDoubleTap L.Ctl mh.lctl kc.Z in # MT keyRepeatOnDoubleTap mh.lctl kc.Z in
 let DelWrd = md.lalt & kc.BSPC in
 let DotCln = dances.Dot-Colon in
 let MinSft = MT keyRepeatOnDoubleTap mh.rsft kc.MINS in
-let NumEnt = LT keyRepeatOnDoubleTap LNumb kc.ENT in
+let NumEnt = LT keyRepeatOnDoubleTap L.Num kc.ENT in
 let QQuote = dances.Q-Quote in
 let SftCap = dances.ShiftCapsWord3 in
 let SftSla = MT keyRepeatOnDoubleTap mh.rsft kc.SLSH in
-let SymSpc = LT keyRepeatOnDoubleTap LSymb kc.SPC in
+let SymSpc = LT keyRepeatOnDoubleTap L.Sym kc.SPC in
 let UnAGt  = LiftMod_Tap md.lalt ks.RABK in
 let UnALt  = LiftMod_Tap md.lalt ks.LABK in
 let UnCLBr = LiftMod_Tap md.lctl kc.LBRC in
@@ -113,7 +109,7 @@ let WDQuot = dances.W-DoubleQuote in
     combo.make 30 [30, 31],
   ],
   layers = [
-    [ # Base Layer
+    [ # Base Layer (L.Base)
             QQuote, WDQuot, kc.D,   kc.P,                       kc.L,   kc.O,   kc.Y,   kc.BSPC,
     kc.ESC,                                 kc.G,       kc.M,                                   kc.EQL,
             kc.A,   kc.R,   kc.S,   kc.T,                       kc.N,   kc.E,   kc.I,   kc.U,
@@ -133,7 +129,7 @@ let WDQuot = dances.W-DoubleQuote in
     kc.N0,
     mc.PD,
   ],
-  [ # Shifted Layer (for key overrides)
+  [ # Shifted Layer (for key overrides) (L.Sft)
             TTT,    TTT,    TTT,    TTT,                        TTT,    TTT,    TTT,    UnSDel,
     TTT,                                    TTT,        TTT,                                    TTT,
             TTT,    TTT,    TTT,    TTT,                        TTT,    TTT,    TTT,    TTT,
@@ -153,7 +149,7 @@ let WDQuot = dances.W-DoubleQuote in
     TTT,
     TTT,
   ],
-  [ # Alt-ed Layer (for key overrides)
+  [ # Alt-ed Layer (for key overrides) (L.Alt)
             TTT,    TTT,    TTT,    TTT,                        TTT,    TTT,    TTT,    TTT,
     TTT,                                    TTT,        TTT,                                    TTT,
             TTT,    TTT,    TTT,    TTT,                        TTT,    TTT,    TTT,    TTT,
@@ -173,7 +169,7 @@ let WDQuot = dances.W-DoubleQuote in
     XXX,
     XXX,
   ],
-  [ # Controled Layer (for key overrides)
+  [ # Controled Layer (for key overrides) (L.Ctl)
             TTT,    TTT,    TTT,    TTT,                        TTT,    TTT,    TTT,    TTT,
     TTT,                                    TTT,        TTT,                                    TTT,
             TTT,    TTT,    TTT,    TTT,                        TTT,    TTT,    TTT,    TTT,
@@ -193,13 +189,13 @@ let WDQuot = dances.W-DoubleQuote in
     XXX,
     XXX,
   ],
-  [ # Symbol Layer
+  [ # Symbol Layer (L.Sym)
               AppBck,AppFwd,kc.UP,  kc.F3,                      ks.TILD,ks.ASTR,ra.LBRC,DelWrd,
       TTT,                                    ks.AT,      Ra.MINS,                                ra.RBRC,
               Ra.RBRC,kc.LEFT,kc.DOWN,kc.RGHT,                    ra.MINS,ra.SCLN,ks.PIPE,ks.DLR,
       kc.CAPS,                                mc.BK,      kc.GRV,                                 Ra.RBRC,
               ks.PERC,ks.AMPR,ks.CIRC,TTT,                        ks.HASH,TTT,    kc.BSLS,kc.SLSH,
-                                      TTT,    TTT,       MO LMeta,kc.PGUP,
+                                      TTT,    TTT,       MO L.Fun,kc.PGUP,
                                                             kc.HOME,XXX,kc.END,
                                                                   kc.PGDN,
       # Combos
@@ -213,7 +209,7 @@ let WDQuot = dances.W-DoubleQuote in
       XXX,
       XXX,
     ],
-    [ # Number Layer
+    [ # Number Layer (L.Num)
               kc.PAST,  kc.N7,  kc.N8,  kc.N9,                    ks.LCBR,ks.RCBR,kc.Y,   kc.BSPC,
       kc.ESC,                                 kc.PPLS,    kc.PMNS,                                kc.EQL,
               kc.PSLS,  kc.N4,  kc.N5,  kc.N6,                    kc.LBRC,kc.RBRC,kc.I,   kc.U,
@@ -233,7 +229,7 @@ let WDQuot = dances.W-DoubleQuote in
       XXX,
       XXX,
     ],
-    [ # Meta Layer
+    [ # Function/Meta Layer (L.Fun)
               kc.F2,  kc.F3,  kc.F4,  kc.F5,                      kc.F7,  kc.F8,  kc.F9,  kc.F10,
         kc.F1,                                  Lg.N4,      kc.F6,                                  kc.F11,
               XXX,    XXX,    XXX,    XXX,                        XXX,    XXX,    XXX,    XXX,
