@@ -39,13 +39,19 @@ let LiftMod_Tap = fun modifier key => macro.make [
                                                   macro.press modifier
                                                 ] in
 
-let CommandHold = fun key => macro.make [
-                                          macro.press md.lgui,
-                                          macro.press key,
-                                          macro.pause_for_release,
-                                          macro.release key,
-                                          macro.release md.lgui
-                                        ] in
+let ModHold = fun mod key => macro.make [
+                                      macro.press mod,
+                                      macro.press key,
+                                      macro.pause_for_release,
+                                      macro.release key,
+                                      macro.release mod
+                                    ] in
+let MacroTap = fun keys => macro.make (std.array.map (fun key => macro.tap key) keys) in
+let CopyLayerWithOverrides = fun origin overrides =>
+  std.array.map_with_index
+    (fun index keycode => std.record.get_or (std.string.from_number index) keycode overrides)
+    origin
+in
 
 # Named Layers
 let layers = [
@@ -79,31 +85,78 @@ let dances = {
 let AltH   = MT keyRepeatOnDoubleTap mh.ralt kc.H in
 let AltLT  = MT keyRepeatOnDoubleTap mh.ralt ks.LABK in
 let AltX   = MT keyRepeatOnDoubleTap mh.lalt kc.X in # LM keyRepeatOnDoubleTap L.Alt mh.lalt kc.X in
-let AppBck = CommandHold kc.GRV in
-let AppFwd = CommandHold kc.TAB in
+let AppBck = ModHold md.lgui kc.GRV in
+let AppFwd = ModHold md.lgui kc.TAB in
+let AppBkW = ModHold md.lalt & md.lsft kc.TAB in
+let AppFdW = ModHold md.lalt kc.TAB in
 let Cmd0   = MT keyRepeatOnDoubleTap mh.lgui kc.N0 in
+let Ctl0   = MT keyRepeatOnDoubleTap mh.lctl kc.N0 in
 let CmdK   = MT keyRepeatOnDoubleTap mh.rgui kc.K in
+let CtlK   = MT keyRepeatOnDoubleTap mh.rctl kc.K in
 let CmdTab = MT keyRepeatOnDoubleTap mh.lgui kc.TAB in
+let CtlTab = MT keyRepeatOnDoubleTap mh.lctl kc.TAB in
 let ComScl = dances.Comma-SemiCln in
 let CtlF   = MT keyRepeatOnDoubleTap mh.rctl kc.F in
+let CmdF   = MT keyRepeatOnDoubleTap mh.rgui kc.F in
 let CtlGT  = MT keyRepeatOnDoubleTap mh.rctl ks.RABK in
+let CmdGT  = MT keyRepeatOnDoubleTap mh.rcmd ks.RABK in
 let CtlZ   = LM keyRepeatOnDoubleTap L.Ctl mh.lctl kc.Z in # MT keyRepeatOnDoubleTap mh.lctl kc.Z in
+let CmdZ   = LM keyRepeatOnDoubleTap L.Ctl mh.lgui kc.Z in # MT keyRepeatOnDoubleTap mh.lgui kc.Z in
 let DelWrd = md.lalt & kc.BSPC in
 let DotCln = dances.Dot-Colon in
 let MinSft = MT keyRepeatOnDoubleTap mh.rsft kc.MINS in
 let NumEnt = LT keyRepeatOnDoubleTap L.Num kc.ENT in
+let PncSft = MT keyRepeatOnDoubleTap mh.rsft ks.EXLM in
 let QQuote = dances.Q-Quote in
 let SftCap = dances.ShiftCapsWord3 in
 let SftSla = MT keyRepeatOnDoubleTap mh.rsft kc.SLSH in
 let SymSpc = LT keyRepeatOnDoubleTap L.Sym kc.SPC in
-let UnAGt  = LiftMod_Tap md.lalt ks.RABK in
-let UnALt  = LiftMod_Tap md.lalt ks.LABK in
-let UnCLBr = LiftMod_Tap md.lctl kc.LBRC in
-let UnCRBr = LiftMod_Tap md.lctl kc.RBRC in
-let UnSDel = LiftMod_Tap md.lsft kc.DEL in
+let UnGLBr = LiftMod_Tap md.lgui kc.LBRC in
+let UnGRBr = LiftMod_Tap md.lgui kc.RBRC in
 let WDQuot = dances.W-DoubleQuote in
 
 # Keymap definition
+
+let baseLayer = [
+          QQuote, WDQuot, kc.D,   kc.P,                       kc.L,   kc.O,   kc.Y,   kc.BSPC,
+  kc.ESC,                                 kc.G,       kc.M,                                   kc.EQL,
+          kc.A,   kc.R,   kc.S,   kc.T,                       kc.N,   kc.E,   kc.I,   kc.U,
+  SftCap,                                 kc.B,       CmdK,                                   MinSft,
+          CtlZ,   AltX,   kc.C,   kc.V,                       AltH,   CtlF,   ComScl, DotCln,
+                                  CmdTab, SymSpc,     NumEnt, kc.UP,
+                                                      kc.LEFT,XXX,kc.RGHT,
+                                                            kc.DOWN,
+  # Combos
+  kc.N1,
+  kc.N2,
+  kc.N3,
+  kc.N4,
+  kc.N5,
+  kc.F,
+  kc.J,
+  kc.N0,
+  MacroTap [kc.DOT, kc.DOT, kc.SLSH],
+] in
+
+let transparentLayer = std.array.replicate (std.array.length baseLayer) TTT in
+
+let shiftedLayerOverrides = {
+   "7" = LiftMod_Tap md.lsft kc.DEL,
+  "30" = kc.N9,
+  "31" = kc.N0,
+  "48" = MacroTap [kc.N9, kc.N0],
+} in
+let shiftedBaseLayer = CopyLayerWithOverrides transparentLayer shiftedLayerOverrides in
+
+let controledLayerOverrides = {
+  "20" = md.lsft,
+  "30" = LiftMod_Tap md.lctl kc.LBRC,
+  "31" = LiftMod_Tap md.lctl kc.RBRC,
+  "47" = XXX,
+  "48" = LiftMod_Tap md.lctl (MacroTap [kc.LBRC, kc.RBRC]),
+} in
+let controledBaseLayer = CopyLayerWithOverrides transparentLayer controledLayerOverrides in
+
 {
   virtual_keys = [
     combo.make 30 [8, 0],
@@ -117,87 +170,10 @@ let WDQuot = dances.W-DoubleQuote in
     combo.make 30 [30, 31],
   ],
   layers = [
-    [ # Base Layer (L.Base)
-            QQuote, WDQuot, kc.D,   kc.P,                       kc.L,   kc.O,   kc.Y,   kc.BSPC,
-    kc.ESC,                                 kc.G,       kc.M,                                   kc.EQL,
-            kc.A,   kc.R,   kc.S,   kc.T,                       kc.N,   kc.E,   kc.I,   kc.U,
-    SftCap,                                 kc.B,       CmdK,                                   MinSft,
-            CtlZ,   AltX,   kc.C,   kc.V,                       AltH,   CtlF,   ComScl, DotCln,
-                                    CmdTab, SymSpc,     NumEnt, kc.UP,
-                                                         kc.LEFT,XXX,kc.RGHT,
-                                                               kc.DOWN,
-    # Combos
-    kc.N1,
-    kc.N2,
-    kc.N3,
-    kc.N4,
-    kc.N5,
-    kc.F,
-    kc.J,
-    kc.N0,
-    mc.PD,
-  ],
-  [ # Shifted Layer (for key overrides) (L.Sft)
-            TTT,    TTT,    TTT,    TTT,                        TTT,    TTT,    TTT,    UnSDel,
-    TTT,                                    TTT,        TTT,                                    TTT,
-            TTT,    TTT,    TTT,    TTT,                        TTT,    TTT,    TTT,    TTT,
-    TTT,                                    TTT,        TTT,                                    TTT,
-            TTT,    TTT,    TTT,    TTT,                        TTT,    TTT,    kc.N9,  kc.N0,
-                                    TTT,    TTT,        TTT,    TTT,
-                                                            TTT,TTT,TTT,
-                                                                TTT,
-    # Combos
-    TTT,
-    TTT,
-    TTT,
-    TTT,
-    TTT,
-    TTT,
-    TTT,
-    TTT,
-    TTT,
-  ],
-#  [ # Alt-ed Layer (for key overrides) (L.Alt)
-#            TTT,    TTT,    TTT,    TTT,                        TTT,    TTT,    TTT,    TTT,
-#    TTT,                                    TTT,        TTT,                                    TTT,
-#            TTT,    TTT,    TTT,    TTT,                        TTT,    TTT,    TTT,    TTT,
-#    md.lsft,                                TTT,        TTT,                                    TTT,
-#            TTT,    TTT,    TTT,    TTT,                        TTT,    TTT,    UnALt,  UnAGt,
-#                                    TTT,    TTT,        TTT,    TTT,
-#                                                            TTT,TTT,TTT,
-#                                                                TTT,
-#    # Combos
-#    TTT,
-#    TTT,
-#    TTT,
-#    TTT,
-#    TTT,
-#    TTT,
-#    TTT,
-#    XXX,
-#    XXX,
-#  ],
-  [ # Controled Layer (for key overrides) (L.Ctl)
-            TTT,    TTT,    TTT,    TTT,                        TTT,    TTT,    TTT,    TTT,
-    TTT,                                    TTT,        TTT,                                    TTT,
-            TTT,    TTT,    TTT,    TTT,                        TTT,    TTT,    TTT,    TTT,
-    md.lsft,                                TTT,        TTT,                                    TTT,
-            TTT,    TTT,    TTT,    TTT,                        TTT,    TTT,    UnCLBr, UnCRBr,
-                                    TTT,    TTT,        TTT,    TTT,
-                                                            TTT,TTT,TTT,
-                                                                TTT,
-    # Combos
-    TTT,
-    TTT,
-    TTT,
-    TTT,
-    TTT,
-    TTT,
-    TTT,
-    XXX,
-    XXX,
-  ],
-  [ # Symbol Layer (L.Sym)
+    baseLayer,
+    shiftedBaseLayer,
+    controledBaseLayer,
+    [ # Symbol Layer (L.Sym)
               AppBck,AppFwd,kc.UP,  kc.F3,                      ks.TILD,ks.ASTR,ra.LBRC,DelWrd,
       TTT,                                    ks.AT,      Ra.MINS,                                ra.RBRC,
               Ra.RBRC,kc.LEFT,kc.DOWN,kc.RGHT,                    ra.MINS,ra.SCLN,ks.PIPE,ks.DLR,
