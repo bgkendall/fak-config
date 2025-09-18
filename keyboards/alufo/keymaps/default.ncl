@@ -145,7 +145,6 @@ let baseLayer = [
 ] in
 let baseWindowsOverrides = {
   "24" = CmdZ,
-  "29" = CmdF,
   "32" = CtlTab,
   "33" = SymWSpc,
   "34" = NumWEnt,
