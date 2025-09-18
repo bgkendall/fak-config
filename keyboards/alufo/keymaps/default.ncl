@@ -11,13 +11,13 @@ let mh  = hold.reg.mod in
 let ms  = tap.custom.mouse in
 let fa  = tap.custom.fak in
 let la  = std.record.map_values ((&) md.lalt) kc in
-let La  = std.record.map_values ((&) (md.lalt & md.lsft)) kc in
+let lA  = std.record.map_values ((&) (md.lalt & md.lsft)) kc in
 let ra  = std.record.map_values ((&) md.ralt) kc in
-let Ra  = std.record.map_values ((&) (md.ralt & md.rsft)) kc in
+let rA  = std.record.map_values ((&) (md.ralt & md.rsft)) kc in
 let lg  = std.record.map_values ((&) md.lgui) kc in
-let Lg  = std.record.map_values ((&) (md.lgui & md.lsft)) kc in
+let lG  = std.record.map_values ((&) (md.lgui & md.lsft)) kc in
 let rg  = std.record.map_values ((&) md.rgui) kc in
-let Rg  = std.record.map_values ((&) (md.rgui & md.rsft)) kc in
+let rG  = std.record.map_values ((&) (md.rgui & md.rsft)) kc in
 let XXX = tap.none & hold.none in
 let TTT = tap.trans & hold.trans in
 
@@ -153,9 +153,9 @@ let baseLayerWindows = CopyLayerWithOverrides baseLayer baseWindowsOverrides in
 
 let symbolLayer = [
           AppBck,AppFwd,kc.UP,  kc.F3,                      ks.TILD,ks.ASTR,ra.LBRC,DelWrd,
-  TTT,                                    ks.AT,      Ra.MINS,                                ra.RBRC,
-          Ra.RBRC,kc.LEFT,kc.DOWN,kc.RGHT,                    ra.MINS,ra.SCLN,ks.PIPE,ks.DLR,
-  kc.CAPS,                                mc.BK,      kc.GRV,                                 Ra.RBRC,
+  TTT,                                    ks.AT,      rA.MINS,                                ra.RBRC,
+          rA.RBRC,kc.LEFT,kc.DOWN,kc.RGHT,                    ra.MINS,ra.SCLN,ks.PIPE,ks.DLR,
+  kc.CAPS,                                mc.BK,      kc.GRV,                                 rA.RBRC,
           ks.PERC,ks.AMPR,ks.CIRC,TTT,                        ks.HASH,ra.RBRC,kc.BSLS,kc.SLSH,
                                   TTT,    TTT,        MO L.Fn,kc.PGUP,
                                                         kc.HOME,XXX,kc.END,
@@ -167,7 +167,7 @@ let symbolLayer = [
   XXX,
   XXX,
   ra.LBRC,
-  Ra.LBRC,
+  rA.LBRC,
   XXX,
   XXX,
 ] in
@@ -206,7 +206,7 @@ let numberLayerWindows = CopyLayerWithOverrides numberLayer numberWindowsOverrid
 
 let functionLayer = [
           kc.F2,  kc.F3,  kc.F4,  kc.F5,                      kc.F7,  kc.F8,  kc.F9,  kc.F10,
-  kc.F1,                                  Lg.N4,      kc.F6,                                  kc.F11,
+  kc.F1,                                  lG.N4,      kc.F6,                                  kc.F11,
           DF L.Base, DF L.BaseW,  XXX,    XXX,                        XXX,    XXX,    XXX,    XXX,
   XXX,                                    XXX,        me.MUTE,                                kc.F12,
           mc.M1,  mc.M2,  XXX,    XXX,                        ms.BTN1,ms.BTN2,me.VOLD,me.VOLU,
