@@ -59,7 +59,7 @@ let layers = [
   "BaseW",
   "Sft",
   "Ctl",
-  "Cmd",
+ #"Cmd",
   "Sym",
   "SymW",
   "Num",
@@ -88,7 +88,7 @@ let dances = {
 # Special key abbreviations
 let AltH   = MT keyRepeatOnDoubleTap mh.ralt kc.H in
 let AltLT  = MT keyRepeatOnDoubleTap mh.ralt ks.LABK in
-let AltX   = MT keyRepeatOnDoubleTap mh.lalt kc.X in # LM keyRepeatOnDoubleTap L.Alt mh.lalt kc.X in
+let AltX   = MT keyRepeatOnDoubleTap mh.lalt kc.X in
 let AppBck = ModHold md.lgui kc.GRV in
 let AppFwd = ModHold md.lgui kc.TAB in
 let AppBkW = ModHold (md.lalt & md.lsft) kc.TAB in
@@ -104,8 +104,8 @@ let CtlF   = MT keyRepeatOnDoubleTap mh.rctl kc.F in
 let CmdF   = MT keyRepeatOnDoubleTap mh.rgui kc.F in
 let CtlGT  = MT keyRepeatOnDoubleTap mh.rctl ks.RABK in
 let CmdGT  = MT keyRepeatOnDoubleTap mh.rgui ks.RABK in
-let CtlZ   = LM keyRepeatOnDoubleTap L.Ctl mh.lctl kc.Z in # MT keyRepeatOnDoubleTap mh.lctl kc.Z in
-let CmdZ   = LM keyRepeatOnDoubleTap L.Cmd mh.lgui kc.Z in # MT keyRepeatOnDoubleTap mh.lgui kc.Z in
+let CtlZ   = LM keyRepeatOnDoubleTap L.Ctl mh.lctl kc.Z in
+let CmdZ   = LM keyRepeatOnDoubleTap L.Cmd mh.lgui kc.Z in
 let DelWrd = md.lalt & kc.BSPC in
 let DotCln = dances.Dot-Colon in
 let MinSft = MT keyRepeatOnDoubleTap mh.rsft kc.MINS in
@@ -129,6 +129,7 @@ let baseLayer = [
           kc.A,   kc.R,   kc.S,   kc.T,                       kc.N,   kc.E,   kc.I,   kc.U,
   SftCap,                                 kc.B,       CmdK,                                   MinSft,
           CtlZ,   AltX,   kc.C,   kc.V,                       AltH,   CtlF,   ComScl, DotCln,
+
                                   CmdTab, SymSpc,     NumEnt, kc.UP,
                                                       kc.LEFT,XXX,kc.RGHT,
                                                             kc.DOWN,
@@ -144,7 +145,7 @@ let baseLayer = [
   MacroTap [kc.DOT, kc.DOT, kc.SLSH],
 ] in
 let baseWindowsOverrides = {
-  "24" = CmdZ,
+ #"24" = CmdZ,
   "32" = CtlTab,
   "33" = SymWSpc,
   "34" = NumWEnt,
@@ -156,7 +157,8 @@ let symbolLayer = [
   TTT,                                    ks.AT,      rA.MINS,                                ra.RBRC,
           rA.RBRC,kc.LEFT,kc.DOWN,kc.RGHT,                    ra.MINS,ra.SCLN,ks.PIPE,ks.DLR,
   kc.CAPS,                                mc.BK,      kc.GRV,                                 rA.RBRC,
-          ks.PERC,ks.AMPR,ks.CIRC,TTT,                        ks.HASH,ra.RBRC,kc.BSLS,kc.SLSH,
+          ks.PERC,ks.AMPR,ks.CIRC,ks.EXLM,                    ks.HASH,ks.QUES,kc.BSLS,kc.SLSH,
+
                                   TTT,    TTT,        MO L.Fn,kc.PGUP,
                                                         kc.HOME,XXX,kc.END,
                                                               kc.PGDN,
@@ -165,7 +167,7 @@ let symbolLayer = [
   XXX,
   XXX,
   XXX,
-  XXX,
+  ra.RBRC,
   ra.LBRC,
   rA.LBRC,
   XXX,
@@ -184,6 +186,7 @@ let numberLayer = [
           kc.PSLS,  kc.N4,  kc.N5,  kc.N6,                    kc.LBRC,kc.RBRC,ks.PIPE,ks.DLR,
   md.lsft,                                kc.PDOT,    kc.GRV,                                 MinSft,
           kc.PEQL,  kc.N1,  kc.N2,  kc.N3,                    AltLT,  CtlGT,  ks.QUES,ks.EXLM,
+
                                   Cmd0,   kc.PENT,    TTT,      TTT,
                                                             TTT,TTT,TTT,
                                                                 TTT,
@@ -210,6 +213,7 @@ let functionLayer = [
           DF L.Base, DF L.BaseW,  XXX,    XXX,                        XXX,    XXX,    XXX,    XXX,
   XXX,                                    XXX,        me.MUTE,                                kc.F12,
           mc.M1,  mc.M2,  XXX,    XXX,                        ms.BTN1,ms.BTN2,me.VOLD,me.VOLU,
+
                                   TTT,    TTT,        TTT,    ms.UP,
                                                        ms.LEFT,XXX,ms.RGHT,
                                                              ms.DOWN,
@@ -270,7 +274,7 @@ let commandedBaseLayer = CopyLayerWithOverrides transparentLayer commandedLayerO
     baseLayerWindows,
     shiftedBaseLayer,
     controledBaseLayer,
-    commandedBaseLayer,
+   #commandedBaseLayer,
     symbolLayer,
     symbolLayerWindows,
     numberLayer,
